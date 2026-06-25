@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambi</title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="img/bbbbb.png" alt="Tambi Logo">
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">About <i class="fa-solid fa-chevron-down" style="font-size:11px;"></i></a>
+        <ul class="dropdown-menu">
+          <li><a href="about-priyash.html"><i class="fa-solid fa-user-doctor"></i> Dr. Priyash Tambi</a></li>
+          <li><a href="about-priyanka.html"><i class="fa-solid fa-user-doctor"></i> Dr. Priyanka Tambi</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="nephrologist.html">Nephrologist ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="acute-kidney-injury.html">Acute Kidney Injury</a></li>
+          <li><a href="chronic-kidney-disease.html">Chronic Kidney Disease</a></li>
+          <li><a href="kidney-transplant.html">Kidney Transplant Care</a></li>
+          <li><a href="dialysis-care.html">Dialysis Care</a></li>
+          <li><a href="hypertension-kidney.html">Hypertension & Kidney Care</a></li>
+          <li><a href="diabetic-kidney.html">Diabetic Kidney Disease</a></li>
+          <li><a href="renal-stone.html">Renal Stone Disease</a></li>
+          <li><a href="glomerulonephritis.html">Glomerulonephritis</a></li>
+          <li><a href="electrolyte-imbalance.html">Electrolyte Imbalance</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="gynecologist.html">Gynecologist ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="pre-conception-counseling.html">Pre-Conception Counseling</a></li>
+          <li><a href="antenatal-care.html">Antenatal Care</a></li>
+          <li><a href="high-risk-pregnancy.html">High-Risk Pregnancy Management</a></li>
+          <li><a href="painless-delivery.html">Painless Normal Deliveries</a></li>
+          <li><a href="cesarean-section.html">Cesarean Sections</a></li>
+          <li><a href="menstrual-disorders.html">Menstrual Disorder Management</a></li>
+          <li><a href="pelvic-pain-infection.html">Pelvic Pain & Infection Treatment</a></li>
+          <li><a href="fibroid-ovarian-cyst.html">Fibroid & Ovarian Cyst Management</a></li>
+          <li><a href="contraceptive-counseling.html">Contraceptive Counseling</a></li>
+          <li><a href="iud-implant-services.html">IUD & Implant Services</a></li>
+          <li><a href="infertility-treatment.html">Infertility Treatments</a></li>
+          <li><a href="advanced-gynae-surgery.html">Advanced Surgical Procedures</a></li>
+          <li><a href="menopause-management.html">Menopause Management</a></li>
+          <li><a href="cancer-screening.html">Breast & Cervical Cancer Screening</a></li>
+        </ul>
+      </li>
+      <li><a href="treatments.html" class="">Treatments</a></li>
+      <li><a href="gallery.html" class="">Gallery</a></li>
+      <li><a href="contact.html" class="">Contact</a></li>
+      <li><a href="appointment.html" class="mobile-btn ">Book Appointment</a></li>
+    </ul>
+    <a href="appointment.html" class="btn ">Book Appointment</a>
+  </nav>
+</header>
+
+<!-- Banner Slider -->
+<section class="hero-slider">
+  <div class="slider-track" id="sliderTrack">
+
+    <div class="slides">
+      <img src="img/banneer1.jpeg" alt="Nephrologist Banner">
+    </div>
+
+    <div class="slides">
+      <img src="img/bannerr2.jpeg" alt="Gynaecologist Banner">
+    </div>
+
+    <!-- Duplicate first slide for smooth infinite loop -->
+    <div class="slides">
+      <img src="img/banneer1.jpeg" alt="Nephrologist Banner">
+    </div>
+
+  </div>
+
+  <button class="slider-arrow prev" id="prevBtn">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+
+  <button class="slider-arrow next" id="nextBtn">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</section>
+
+<!-- Service Section -->
+<section class="services-section">
+  <div class="section-title">
+    <span>GYNAECOLOGY</span>
+    <h2>Gynaecology Services</h2>
+    <p>Complete women’s healthcare with expert care and modern treatment.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="service-img">
+        <img src="img/ser11.jpg" alt="Pre-Conception Counseling">
+      </div>
+      <h3>Pre-Conception Counseling</h3>
+      <p>Expert guidance before planning pregnancy.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-img">
+        <img src="img/ser14.jpg" alt="Antenatal Care">
+      </div>
+      <h3>Antenatal Care</h3>
+      <p>Complete care during pregnancy journey.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-img">
+        <img src="img/ser15.webp" alt="High-Risk Pregnancy Management">
+      </div>
+      <h3>High-Risk Pregnancy Management</h3>
+      <p>Care for diabetes, hypertension, twins/triplets etc.</p>
+    </div>
+
+    <div class="service-card">
+      <div class="service-img">
+        <img src="img/ser16.jpg" alt="Painless Normal Deliveries">
+      </div>
+      <h3>Painless Normal Deliveries</h3>
+      <p>Safe and comfortable delivery support.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser11.jpg" alt="Cesarean Sections">
+      </div>
+      <h3>Cesarean Sections</h3>
+      <p>Advanced and safe C-section care.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser14.jpg" alt="Menstrual Disorder Management">
+      </div>
+      <h3>Menstrual Disorder Management</h3>
+      <p>PCOS, heavy bleeding and irregular cycle care.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser15.webp" alt="Pelvic Pain Treatment">
+      </div>
+      <h3>Pelvic Pain & Infection Treatment</h3>
+      <p>UTIs and pelvic inflammatory disease treatment.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser16.jpg" alt="Fibroid and Ovarian Cyst">
+      </div>
+      <h3>Fibroid & Ovarian Cyst Management</h3>
+      <p>Diagnosis and treatment for fibroids and cysts.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser11.jpg" alt="Contraceptive Counseling">
+      </div>
+      <h3>Contraceptive Counseling</h3>
+      <p>Personalized family planning guidance.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser14.jpg" alt="IUD Implant Services">
+      </div>
+      <h3>IUD & Implant Services</h3>
+      <p>Safe long-term birth control options.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser15.webp" alt="Infertility Treatments">
+      </div>
+      <h3>Infertility Treatments</h3>
+      <p>Advanced fertility evaluation and care.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser16.jpg" alt="Advanced Surgical Procedures">
+      </div>
+      <h3>Advanced Surgical Procedures</h3>
+      <p>Laparoscopy, hysteroscopy and hysterectomy.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser11.jpg" alt="Menopause Management">
+      </div>
+      <h3>Menopause Management</h3>
+      <p>Supportive care for healthy menopause.</p>
+    </div>
+
+    <div class="service-card hidden-service">
+      <div class="service-img">
+        <img src="img/ser14.jpg" alt="Cancer Screening">
+      </div>
+      <h3>Breast & Cervical Cancer Screening</h3>
+      <p>Screening and HPV vaccination support.</p>
+    </div>
+
+  </div>
+
+  <button class="show-btn" id="showBtn">Show All Services</button>
+</section>
+
+<!-- about doctors -->
+<section class="doctors-section">
+  <div class="section-title doctor-title">
+    <span>MEET OUR EXPERTS</span>
+    <h2>Our Doctors</h2>
+    <p>Qualified, experienced and dedicated specialists for your healthcare.</p>
+  </div>
+
+  <div class="doctor-card nephro-card">
+    <div class="doctor-photo">
+      <img src="img/dd1.jpeg" alt="Dr. Priyash Tambi">
+    </div>
+
+    <div class="doctor-info">
+      <span class="doctor-tag blue">NEPHROLOGIST</span>
+      <h3>Dr. Priyash Tambi</h3>
+      <p class="degree">Consultant Nephrologist & Transplant Physician</p>
+
+      <p class="doctor-about">
+        Dr. Priyash Tambi is a highly qualified Nephrologist and Transplant Physician with advanced training from reputed medical institutions including AFMC Pune, KEM Hospital Mumbai and IKDRC-ITS Ahmedabad. He specializes in kidney disease management, dialysis care, hypertension-related kidney problems and renal transplant care.
+      </p>
+
+      <ul>
+        <li>Acute & Chronic Kidney Disease Management</li>
+        <li>Kidney Transplant Care & Follow-up</li>
+        <li>Dialysis & Critical Care Hemodialysis</li>
+        <li>Hypertension & Diabetic Kidney Disease</li>
+        <li>Renal Stone & Glomerular Disorders</li>
+        <li>Electrolyte Imbalance Management</li>
+      </ul>
+
+      <div class="doctor-meta blue-meta">
+    <span><strong>OPD:</strong> Monday - Saturday</span>
+    <span><strong>Sunday:</strong> Appointment Basis | 9:00 AM - 11:00 AM</span>
+    <span><strong>Timing:</strong> 8:00 AM - 9:00 AM & 6:00 PM - 7:30 PM</span>
+</div>
+
+      <a href="appointment.html?doc=priyash" class="doctor-btn blue-btn">Book Appointment</a>
+    </div>
+  </div>
+
+<div class="doctor-card gynae-card reverse">
+  <div class="doctor-info">
+    <span class="doctor-tag pink">GYNAECOLOGIST</span>
+    <h3>Dr. Priyanka Nasare Tambi</h3>
+    <p class="degree">Consultant Obstetrician & Gynaecologist</p>
+
+    <p class="doctor-about">
+      Dr. Priyanka Nasare Tambi is a highly qualified Obstetrician and Gynaecologist with 10+ years of experience in women's healthcare. Trained at KEM Hospital Mumbai and fellowship in laparoscopic surgery, she is known for accurate diagnosis, compassionate care and managing complex obstetric and gynaecological cases with a patient-friendly approach.
+    </p>
+
+    <ul>
+      <li>MBBS — GMCH Nagpur</li>
+      <li>MS — KEM Hospital, Mumbai</li>
+      <li>DNB — NBEMS, New Delhi</li>
+      <li>Fellowship in Laparoscopy</li>
+      <li>Ex Consultant — GCS Medical College, Ahmedabad</li>
+      <li>High-Risk Pregnancy & Antenatal Care</li>
+      <li>PCOS & Hormonal Disorder Management</li>
+      <li>Infertility Evaluation & Treatment</li>
+      <li>Normal & Caesarean Deliveries</li>
+      <li>Laparoscopic & Hysteroscopic Surgeries</li>
+      <li>Women's Wellness & Menopause Care</li>
+    </ul>
+
+    <div class="doctor-meta pink-meta">
+      <span><strong>Experience:</strong> 10+ Years</span>
+      <span><strong>Timing:</strong> Mon - Sat | 9:00 AM - 1:00 PM &nbsp;&amp;&nbsp; 6:00 PM - 8:00 PM</span>
+      <span><strong>Sunday:</strong> Appointment Basis | 9:00 AM - 11:00 AM</span>
+    </div>
+
+    <a href="appointment.html?doc=priyanka" class="doctor-btn pink-btn">Book Appointment</a>
+  </div>
+
+  <div class="doctor-photo">
+    <img src="img/dd2.jpg" alt="Dr. Priyanka Nasare Tambi">
+  </div>
+</div>
+</section>
+
+<!-- why choose us -->
+<section class="why-section">
+  <div class="section-title">
+    <span>WHY CHOOSE US</span>
+    <h2>Why Choose Our Care?</h2>
+    <p>Expert kidney care and women’s healthcare with trust, compassion and modern treatment approach.</p>
+  </div>
+
+  <div class="why-wrapper">
+    <div class="why-image">
+      <img src="img/why1.jpg" alt="Why Choose Us">
+    </div>
+
+    <div class="why-accordion">
+
+      <div class="why-item active">
+        <button class="why-question" type="button">
+          <span class="icon">−</span>
+          Experienced Doctors
+        </button>
+        <div class="why-answer">
+          <p>Our specialists provide accurate diagnosis and personalized treatment with a patient-first approach.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <button class="why-question" type="button">
+          <span class="icon">+</span>
+          Kidney & Transplant Care
+        </button>
+        <div class="why-answer">
+          <p>Advanced care for kidney disease, dialysis, hypertension-related kidney problems and renal transplant follow-up.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <button class="why-question" type="button">
+          <span class="icon">+</span>
+          Women’s Health Expertise
+        </button>
+        <div class="why-answer">
+          <p>Complete care for pregnancy, PCOS, infertility, menstrual problems, laparoscopic procedures and women’s wellness.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <button class="why-question" type="button">
+          <span class="icon">+</span>
+          Modern Treatment Approach
+        </button>
+        <div class="why-answer">
+          <p>We follow updated medical practices and provide safe, ethical and result-oriented treatment for every patient.</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <button class="why-question" type="button">
+          <span class="icon">+</span>
+          Compassionate Care
+        </button>
+        <div class="why-answer">
+          <p>We believe in listening to patients, explaining treatment clearly and making healthcare comfortable for families.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- sldier section  -->
+ <!-- Doctor Specialist Slider Section -->
+<section class="specialist-slider-section">
+  <div class="spec-slider-wrapper" id="specSliderWrapper">
+
+    <!-- Slide 1: Nephrologist -->
+    <div class="spec-slide">
+      <h2 class="spec-heading">गुर्दा रोग (Kidney) के इलाज के लिए संपर्क करें</h2>
+      <div class="spec-content">
+        <div class="spec-left">
+          <ul>
+            <li>तीव्र और दीर्घकालिक गुर्दा रोग</li>
+            <li>किडनी ट्रांसप्लांट देखभाल</li>
+            <li>डायलिसिस और क्रिटिकल केयर</li>
+            <li>उच्च रक्तचाप व मधुमेह से गुर्दा रोग</li>
+          </ul>
+        </div>
+        <div class="spec-center">
+          <div class="spec-photo-circle">
+            <img src="img/priyash.jpeg" alt="Dr. Priyash Tambi">
+          </div>
+          <h3>डॉ. प्रियाश तांबी</h3>
+          <p>कंसल्टेंट नेफ्रोलॉजिस्ट एवं ट्रांसप्लांट फिजिशियन</p>
+          <a href="appointment.html?doc=priyash" class="spec-btn blue-spec-btn">अपॉइंटमेंट बुक करें</a>
+        </div>
+        <div class="spec-right">
+          <ul>
+            <li>गुर्दे की पथरी व ग्लोमेरुलर विकार</li>
+            <li>इलेक्ट्रोलाइट असंतुलन उपचार</li>
+            <li>उच्च रक्तचाप प्रबंधन</li>
+            <li>क्रिटिकल केयर नेफ्रोलॉजी</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Gynaecologist -->
+    <div class="spec-slide spec-slide-pink">
+      <h2 class="spec-heading">महिला स्वास्थ्य (Gynaecology) के इलाज के लिए संपर्क करें</h2>
+      <div class="spec-content">
+        <div class="spec-left">
+          <ul>
+            <li>उच्च जोखिम गर्भावस्था देखभाल</li>
+            <li>पीसीओएस व हार्मोनल विकार उपचार</li>
+            <li>बांझपन मूल्यांकन एवं उपचार</li>
+            <li>सामान्य व सिजेरियन प्रसव</li>
+          </ul>
+        </div>
+        <div class="spec-center">
+          <div class="spec-photo-circle">
+            <img src="img/priyanka.jpeg" alt="Dr. Priyanka Nasare Tambi">
+          </div>
+          <h3>डॉ. प्रियंका नासरे तांबी</h3>
+          <p>कंसल्टेंट प्रसूति एवं स्त्री रोग विशेषज्ञ</p>
+          <a href="appointment.html?doc=priyanka" class="spec-btn pink-spec-btn">अपॉइंटमेंट बुक करें</a>
+        </div>
+        <div class="spec-right">
+          <ul>
+            <li>लैप्रोस्कोपिक व हिस्टेरोस्कोपिक सर्जरी</li>
+            <li>मासिक धर्म विकार प्रबंधन</li>
+            <li>महिला स्वास्थ्य व रजोनिवृत्ति देखभाल</li>
+            <li>फाइब्रॉइड व ओवेरियन सिस्ट उपचार</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="spec-arrow spec-prev" id="specPrev">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <button class="spec-arrow spec-next" id="specNext">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+
+  <div class="spec-dots">
+    <span class="spec-dot active" data-index="0"></span>
+    <span class="spec-dot" data-index="1"></span>
+  </div>
+</section>
+
+<!-- tesmonial section -->
+ <!-- Testimonials Section -->
+<section class="testimonials-section">
+  <div class="section-title">
+    <span>TESTIMONIALS</span>
+    <h2>What Our Patients Say</h2>
+    <p>Trusted by thousands of patients across Jaipur and Rajasthan</p>
+  </div>
+
+  <div class="testi-slider-outer">
+    <div class="testi-track" id="testiTrack">
+
+      <!-- Card 1 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">Dr. Priyash Tambi diagnosed my kidney disease at the right time and started the correct treatment immediately. His experience and patience gave me and my family complete confidence. The entire team took excellent care during dialysis.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar blue-avatar">RS</div>
+          <div class="testi-name-box">
+            <strong>Ramesh Sharma</strong>
+            <span>Jaipur, Rajasthan</span>
+          </div>
+          <div class="testi-tag blue-tag">🫘 Kidney Care</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">Dr. Priyanka took exceptional care throughout my entire pregnancy. It was a high-risk case, yet she handled everything with such confidence and composure. I had a normal delivery and I am extremely happy with the outcome.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar pink-avatar">PM</div>
+          <div class="testi-name-box">
+            <strong>Priya Meena</strong>
+            <span>Jaipur, Rajasthan</span>
+          </div>
+          <div class="testi-tag pink-tag">👶 Gynaecology</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">After my kidney transplant, Dr. Priyash Tambi's follow-up care was truly commendable. Every question was answered promptly, and guidance was always available whenever needed. His dedication to patient recovery is remarkable.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar blue-avatar">VJ</div>
+          <div class="testi-name-box">
+            <strong>Vikram Joshi</strong>
+            <span>Ajmer, Rajasthan</span>
+          </div>
+          <div class="testi-tag blue-tag">🫘 Transplant Care</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">I had been struggling with PCOS for a long time. Dr. Priyanka listened carefully and provided both medication and diet guidance. Within 3 months there was a significant improvement and my periods became regular.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar pink-avatar">SK</div>
+          <div class="testi-name-box">
+            <strong>Sunita Kumari</strong>
+            <span>Sikar, Rajasthan</span>
+          </div>
+          <div class="testi-tag pink-tag">👩‍⚕️ PCOS Care</div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">My father was suffering from chronic kidney disease. Dr. Priyash Tambi explained everything in simple language and started dialysis at exactly the right time. His condition has improved significantly now.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar blue-avatar">MK</div>
+          <div class="testi-name-box">
+            <strong>Mahesh Kumar</strong>
+            <span>Kota, Rajasthan</span>
+          </div>
+          <div class="testi-tag blue-tag">🫘 Kidney Care</div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="testi-card">
+        <div class="testi-top">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">❝</div>
+        </div>
+        <p class="testi-text">Dr. Priyanka performed my laparoscopy surgery with great skill and precision. Recovery after the procedure was very quick. Her warm and friendly nature ensures that patients never feel anxious or stressed.</p>
+        <div class="testi-footer">
+          <div class="testi-avatar pink-avatar">AN</div>
+          <div class="testi-name-box">
+            <strong>Anita Nagar</strong>
+            <span>Udaipur, Rajasthan</span>
+          </div>
+          <div class="testi-tag pink-tag">🔬 Laparoscopy</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="testi-nav">
+    <button class="testi-arrow" id="testiPrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="testi-dots" id="testiDots"></div>
+    <button class="testi-arrow" id="testiNext"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stat-section">
+  <div class="stat-header">
+    <span class="stat-label">OUR ACHIEVEMENTS</span>
+    <h2 class="stat-title">Numbers That Speak</h2>
+    <p class="stat-sub">Years of dedication, expertise and patient trust</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-box stat-box-1">
+      <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-num" data-target="25000">0<span>+</span></div>
+      <div class="stat-lbl">Patients Treated</div>
+    </div>
+    <div class="stat-box stat-box-2">
+      <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+      <div class="stat-num" data-target="10">0<span>+</span></div>
+      <div class="stat-lbl">Years Experience</div>
+    </div>
+    <div class="stat-box stat-box-3">
+      <div class="stat-icon"><i class="fa-solid fa-microscope"></i></div>
+      <div class="stat-num" data-target="750">0<span>+</span></div>
+      <div class="stat-lbl">Kidney Biopsies</div>
+    </div>
+    <div class="stat-box stat-box-4">
+      <div class="stat-icon"><i class="fa-solid fa-syringe"></i></div>
+      <div class="stat-num" data-target="1000">0<span>+</span></div>
+      <div class="stat-lbl">Permcath Insertions</div>
+    </div>
+    <div class="stat-box stat-box-5">
+      <div class="stat-icon"><i class="fa-solid fa-droplet"></i></div>
+      <div class="stat-num" data-target="5000">0<span>+</span></div>
+      <div class="stat-lbl">Dialysis Line Insertions</div>
+    </div>
+  </div>
+</section>
+<!-- Gallery Section -->
+<section class="gallery-section">
+  <div class="section-title">
+    <span>OUR GALLERY</span>
+    <h2>Moments of Care & Healing</h2>
+    <p>A glimpse into our hospital, facilities and patient care.</p>
+  </div>
+
+  <div class="gallery-grid">
+
+    <div class="gallery-item">
+      <img src="img/doc11.jpg" alt="Gallery 1">
+      <div class="gallery-overlay">
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="img/doc2.jpg" alt="Gallery 2">
+      <div class="gallery-overlay">
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="img/doc3.jpg" alt="Gallery 3">
+      <div class="gallery-overlay">
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="img/doc4.jpg" alt="Gallery 4">
+      <div class="gallery-overlay">
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+      </div>
+    </div>
+
+  </div>
+
+<div class="gallery-btn-wrap">
+  <a href="gallery.html" class="show-btn">View Full Gallery</a>
+</div>
+</section>
+
+<section class="opd-section">
+  <div class="opd-header">
+    <span class="opd-label">CONSULTATION HOURS</span>
+    <h2 class="opd-title">Clinic Timing</h2>
+    <p class="opd-sub">Monday to Saturday • Sunday Appointment Basis (9:00 AM – 11:00 AM)</p>
+  </div>
+
+  <div class="opd-grid">
+    <div class="opd-card opd-card-blue">
+      <div class="opd-card-top">
+        <div class="opd-icon opd-icon-blue">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+        <div>
+          <span class="opd-tag opd-tag-blue">Nephrologist</span>
+          <h3 class="opd-name">Dr. Priyash Tambi</h3>
+        </div>
+      </div>
+
+      <div class="opd-timings">
+        <div class="opd-time-row">
+          <i class="fa-solid fa-sun opd-sun-blue"></i>
+          <span class="opd-slot-label">Morning</span>
+          <span class="opd-slot-time opd-slot-blue">8:00 AM – 9:00 AM</span>
+        </div>
+        <div class="opd-time-row">
+          <i class="fa-solid fa-moon opd-sun-blue"></i>
+          <span class="opd-slot-label">Evening — Clinic</span>
+          <span class="opd-slot-time opd-slot-blue">6:00 PM – 7:30 PM</span>
+        </div>
+        <div class="opd-time-row">
+          <i class="fa-solid fa-calendar-check opd-sun-blue"></i>
+          <span class="opd-slot-label">Sunday Appointment Basis</span>
+          <span class="opd-slot-time opd-slot-blue">9:00 AM – 11:00 AM</span>
+        </div>
+      </div>
+
+      <a href="tel:+918779698693" class="opd-btn opd-btn-blue">
+        <i class="fa-solid fa-phone"></i> +91 87796 98693
+      </a>
+    </div>
+
+    <div class="opd-card opd-card-pink">
+      <div class="opd-card-top">
+        <div class="opd-icon opd-icon-pink">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+        <div>
+          <span class="opd-tag opd-tag-pink">Gynaecologist</span>
+          <h3 class="opd-name">Dr. Priyanka Nasare Tambi</h3>
+        </div>
+      </div>
+
+      <div class="opd-timings">
+        <div class="opd-time-row">
+          <i class="fa-solid fa-sun opd-sun-pink"></i>
+          <span class="opd-slot-label">Morning</span>
+          <span class="opd-slot-time opd-slot-pink">9:00 AM – 1:00 PM</span>
+        </div>
+        <div class="opd-time-row">
+          <i class="fa-solid fa-moon opd-sun-pink"></i>
+          <span class="opd-slot-label">Evening</span>
+          <span class="opd-slot-time opd-slot-pink">6:00 PM – 8:00 PM</span>
+        </div>
+        <div class="opd-time-row">
+          <i class="fa-solid fa-calendar-check opd-sun-pink"></i>
+          <span class="opd-slot-label">Sunday Appointment Basis</span>
+          <span class="opd-slot-time opd-slot-pink">9:00 AM – 11:00 AM</span>
+        </div>
+      </div>
+
+      <a href="tel:+919137095229" class="opd-btn opd-btn-pink">
+        <i class="fa-solid fa-phone"></i> +91 91370 95229
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+
+<script>
+/* Infinite Banner Slider */
+  const sliderTrack = document.getElementById("sliderTrack");
+  const slides = document.querySelectorAll(".slides");
+  const totalSlides = slides.length;
+
+  let currentSlide = 0;
+  let isMoving = false;
+
+  function nextSlide() {
+    if (isMoving) return;
+
+    isMoving = true;
+    currentSlide++;
+
+    sliderTrack.style.transition = "transform 0.8s ease-in-out";
+    sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+    if (currentSlide === totalSlides - 1) {
+      setTimeout(() => {
+        sliderTrack.style.transition = "none";
+        currentSlide = 0;
+        sliderTrack.style.transform = "translateX(0)";
+        isMoving = false;
+      }, 800);
+    } else {
+      setTimeout(() => {
+        isMoving = false;
+      }, 800);
+    }
+  }
+
+  function prevSlide() {
+    if (isMoving) return;
+
+    if (currentSlide === 0) {
+      currentSlide = totalSlides - 1;
+      sliderTrack.style.transition = "none";
+      sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      setTimeout(() => {
+        isMoving = true;
+        currentSlide--;
+
+        sliderTrack.style.transition = "transform 0.8s ease-in-out";
+        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+        setTimeout(() => {
+          isMoving = false;
+        }, 800);
+      }, 20);
+    } else {
+      isMoving = true;
+      currentSlide--;
+
+      sliderTrack.style.transition = "transform 0.8s ease-in-out";
+      sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      setTimeout(() => {
+        isMoving = false;
+      }, 800);
+    }
+  }
+
+  document.getElementById("nextBtn").addEventListener("click", nextSlide);
+  document.getElementById("prevBtn").addEventListener("click", prevSlide);
+
+  setInterval(nextSlide, 4000);
+
+  /* Show All Services */
+  const showBtn = document.getElementById("showBtn");
+  const hiddenServices = document.querySelectorAll(".hidden-service");
+
+  showBtn.addEventListener("click", () => {
+    hiddenServices.forEach(service => {
+      service.classList.toggle("show");
+    });
+
+    showBtn.innerText = showBtn.innerText === "Show All Services"
+      ? "Show Less"
+      : "Show All Services";
+  });
+
+const whyItems = document.querySelectorAll(".why-item");
+
+  whyItems.forEach((item) => {
+    const button = item.querySelector(".why-question");
+    const icon = item.querySelector(".icon");
+
+    button.addEventListener("click", () => {
+      item.classList.toggle("active");
+
+      if (item.classList.contains("active")) {
+        icon.textContent = "−";
+      } else {
+        icon.textContent = "+";
+      }
+    });
+  });
+
+  // slider js section
+ /* Specialist Slider */
+const specWrapper = document.getElementById("specSliderWrapper");
+const specDots = document.querySelectorAll(".spec-dot");
+let specCurrent = 0;
+const specTotal = 2;
+
+function goToSpecSlide(index) {
+  specCurrent = index;
+  specWrapper.style.transform = `translateX(-${index * 100}%)`;
+  specDots.forEach(d => d.classList.remove("active"));
+  specDots[index].classList.add("active");
+}
+
+// Next - aage
+document.getElementById("specNext").addEventListener("click", () => {
+  goToSpecSlide((specCurrent + 1) % specTotal);
+});
+
+// Prev - peeche (manual only)
+document.getElementById("specPrev").addEventListener("click", () => {
+  goToSpecSlide((specCurrent - 1 + specTotal) % specTotal);
+});
+
+specDots.forEach(dot => {
+  dot.addEventListener("click", () => {
+    goToSpecSlide(parseInt(dot.dataset.index));
+  });
+});
+
+// Auto-play sirf aage (one direction)
+setInterval(() => {
+  goToSpecSlide((specCurrent + 1) % specTotal);
+}, 6000);
+
+/* Testimonials Slider */
+/* Testimonials Slider */
+const testiTrack = document.getElementById("testiTrack");
+const testiDotsContainer = document.getElementById("testiDots");
+const testiCards = document.querySelectorAll(".testi-card");
+
+let testiCurrent = 0;
+
+function getCardsVisible() {
+  return window.innerWidth <= 576 ? 1 : window.innerWidth <= 992 ? 2 : 3;
+}
+
+function buildDots() {
+  testiDotsContainer.innerHTML = "";
+  const max = testiCards.length - getCardsVisible();
+  for (let i = 0; i <= max; i++) {
+    const dot = document.createElement("button");
+    dot.classList.add("testi-dot");
+    if (i === 0) dot.classList.add("active");
+    dot.addEventListener("click", () => goToTesti(i));
+    testiDotsContainer.appendChild(dot);
+  }
+}
+
+function updateTestiDots() {
+  document.querySelectorAll(".testi-dot").forEach((d, i) => {
+    d.classList.toggle("active", i === testiCurrent);
+  });
+}
+
+function goToTesti(index) {
+  const max = testiCards.length - getCardsVisible();
+  testiCurrent = Math.max(0, Math.min(index, max));
+  const cardWidth = testiCards[0].offsetWidth + 24;
+  testiTrack.style.transform = `translateX(-${testiCurrent * cardWidth}px)`;
+  updateTestiDots();
+}
+
+document.getElementById("testiNext").addEventListener("click", () => {
+  const max = testiCards.length - getCardsVisible();
+  goToTesti(testiCurrent >= max ? 0 : testiCurrent + 1);
+});
+
+document.getElementById("testiPrev").addEventListener("click", () => {
+  const max = testiCards.length - getCardsVisible();
+  goToTesti(testiCurrent <= 0 ? max : testiCurrent - 1);
+});
+
+window.addEventListener("resize", () => {
+  testiCurrent = 0;
+  buildDots();
+  goToTesti(0);
+});
+// Auto play
+setInterval(() => {
+  const max = testiCards.length - getCardsVisible();
+  goToTesti(testiCurrent >= max ? 0 : testiCurrent + 1);
+}, 2000);
+buildDots();
+
+/* ── STAT COUNTER ── */
+window.addEventListener('load', function () {
+  document.querySelectorAll('.stat-num').forEach(function (el) {
+    var target = parseInt(el.getAttribute('data-target'));
+    var suffix = el.querySelector('span').outerHTML;
+    var count = 0;
+    var steps = 60;
+    var increment = Math.ceil(target / steps);
+    var interval = Math.floor(1500 / steps);
+    el.innerHTML = '0' + suffix;
+    var timer = setInterval(function () {
+      count += increment;
+      if (count >= target) {
+        count = target;
+        clearInterval(timer);
+      }
+      el.innerHTML = count.toLocaleString() + suffix;
+    }, interval);
+  });
+});
+</script>
+
+<footer class="footer">
+
+  <!-- Top Footer -->
+  <div class="footer-top">
+
+    <!-- Brand -->
+    <div class="footer-col brand-col">
+      <img src="img/logo22.png" alt="Tambi Logo" class="footer-logo">
+      <p class="footer-about">Providing expert kidney care and women's healthcare with compassion, trust and modern treatment approach at RJC Hospital, Jaipur.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about-priyash.html">Dr. Priyash Tambi</a></li>
+        <li><a href="about-priyanka.html">Dr. Priyanka Tambi</a></li>
+        <li><a href="nephrologist.html">Nephrologist</a></li>
+        <li><a href="gynecologist.html">Gynecologist</a></li>
+        <li><a href="treatments.html">Treatments</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Services -->
+    <div class="footer-col">
+      <h4>Our Services</h4>
+      <ul class="footer-links">
+        <li><a href="nephrologist.html">Kidney Disease Management</a></li>
+        <li><a href="nephrologist.html">Dialysis Care</a></li>
+        <li><a href="nephrologist.html">Kidney Transplant</a></li>
+        <li><a href="gynecologist.html">High Risk Pregnancy</a></li>
+        <li><a href="gynecologist.html">Normal & C-Section Delivery</a></li>
+        <li><a href="gynecologist.html">PCOS Treatment</a></li>
+        <li><a href="gynecologist.html">Laparoscopic Surgery</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <ul class="footer-contact">
+        <li>
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <a href="https://www.google.com/search?client=ms-android-motorola-rvo3&hs=AO2p&sca_esv=a4046f1a5a426a33&hl=en-IN&cs=0&sxsrf=ANbL-n4BQVZXkFzcgmTkiRI9evJHZ8qDeQ%3A1780899711881&kgmid=%2Fg%2F11ym171cd5&q=RJC%20Hospitals&shem=rimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm1%2F4&kgs=147c7d10cede9216" target="_blank" style="color: inherit; text-decoration: none;">RJC Hospital, Jaipur, Rajasthan</a>
+        </li>
+        <li>
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <span>+91 87796 98693</span>
+        </li>
+         <li>
+          <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+          <span>+91 91370 95229</span>
+        </li>
+        <li>
+          <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+          <span>drpriyashnephro@gmail.com</span>
+        </li>
+        <li>
+          <div class="contact-icon"><i class="fa-regular fa-envelope"></i></div>
+          <span>tambipriyanka11@gmail.com</span>
+        </li>
+        <li>
+          <div class="contact-icon"><i class="fa-regular fa-clock"></i></div>
+          <span>Hospital: 09:30 AM – 4:30 PM<br>Sunday Appointment Basis: 9:00 AM – 11:00 AM</span>
+        </li>
+      </ul>
+
+      <a href="appointment.html" class="footer-appt-btn">Book Appointment</a>
+    </div>
+
+  </div>
+
+  <!-- Bottom Footer -->
+  <div class="footer-bottom">
+    <p>© 2025 Dr. Priyash & Dr. Priyanka Tambi. All Rights Reserved.</p>
+    <p>Designed with <i class="fa-solid fa-heart" style="color:#d63384;"></i> for better healthcare</p>
+  </div>
+
+</footer>
+
+<script>
+// Mobile Dropdown
+document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+  toggle.addEventListener('click', function(e) {
+    if (window.innerWidth <= 768) {
+      e.preventDefault();
+      this.closest('.dropdown').classList.toggle('open');
+    }
+  });
+});
+
+/* Mobile Menu */
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+
+  hamburger.innerHTML = navMenu.classList.contains("active")
+    ? '<i class="fa-solid fa-xmark"></i>'
+    : '<i class="fa-solid fa-bars"></i>';
+});
+</script>
+</body>
+</html>
