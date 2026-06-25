@@ -8,18 +8,11 @@ const Testimonial = require("../models/Testimonial");
 const Gallery = require("../models/Gallery");
 const Service = require("../models/Service");
 const bcrypt = require("bcryptjs");
-const fs = require("fs");
 const jwt = require("jsonwebtoken");
-const path = require("path");
-
-const removeBannerImage = (imagePath) => {
-  if (!imagePath) return;
-
-  const normalizedPath = imagePath.replace(/^\/+/, "");
-  const fullPath = path.join(__dirname, "..", normalizedPath);
-
-  fs.unlink(fullPath, () => {});
-};
+const {
+  getStoredImagePath,
+  removeStoredImage,
+} = require("../utils/imageStorage");
 
 const isValidBannerStatus = (status) => ["active", "inactive"].includes(status);
 const isValidStatus = (status) => ["active", "inactive"].includes(status);
