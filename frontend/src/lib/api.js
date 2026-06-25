@@ -1,6 +1,18 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || "https://onespot-web.onrender.com"
-// export const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
+export const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "https://onespot-web.onrender.com";
 
+export function getImageUrl(img) {
+  if (!img) return "";
+  if (
+    img.startsWith("http") ||
+    img.startsWith("/img") ||
+    img.startsWith("/assets") ||
+    img.startsWith("data:")
+  ) {
+    return img;
+  }
+  return `${API_BASE_URL}${img}`;
+}
 
 export async function api(path, options = {}) {
   const token = localStorage.getItem("adminToken");

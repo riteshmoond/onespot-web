@@ -3,16 +3,7 @@ import { createPortal } from "react-dom";
 import "../site.css";
 import logoImg from "../assets/bbbbb.png";
 import whyImg from "../assets/why1.jpg";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-function getImageUrl(img) {
-  if (!img) return "";
-  if (img.startsWith("http") || img.startsWith("/img") || img.startsWith("/assets") || img.startsWith("data:")) {
-    return img;
-  }
-  return `${API_BASE}${img}`;
-}
+import { API_BASE_URL, getImageUrl } from "../lib/api";
 
 /* ─── Banner Slider ─────────────────────────────────────────── */
 function BannerSlider({ banners }) {
@@ -1006,86 +997,86 @@ export default function HomePage() {
 
   useEffect(() => {
     // Fetch active banners
-    fetch(`${API_BASE}/api/public/banners`)
+    fetch(`${API_BASE_URL}/api/public/banners`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setBanners(d.banners || []); })
       .catch(() => { })
       .finally(() => setLoadingBanners(false));
 
     // Fetch active services
-    fetch(`${API_BASE}/api/public/services`)
+    fetch(`${API_BASE_URL}/api/public/services`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setServices(d.services || []); })
       .catch(() => { });
 
     // Fetch CMS page for "services" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/services_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/services_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setServicesCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch active doctors
-    fetch(`${API_BASE}/api/public/doctors`)
+    fetch(`${API_BASE_URL}/api/public/doctors`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setDoctors(d.doctors || []); })
       .catch(() => { });
 
     // Fetch CMS page for "doctors" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/doctors_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/doctors_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setDoctorsCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch active FAQs
-    fetch(`${API_BASE}/api/public/faqs`)
+    fetch(`${API_BASE_URL}/api/public/faqs`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setFaqs(d.faqs || []); })
       .catch(() => { });
 
     // Fetch CMS page for "why-choose-us" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/why_choose_us_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/why_choose_us_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setWhyCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch active Testimonials
-    fetch(`${API_BASE}/api/public/testimonials`)
+    fetch(`${API_BASE_URL}/api/public/testimonials`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setTestimonials(d.testimonials || []); })
       .catch(() => { });
 
     // Fetch CMS page for "testimonials" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/testimonials_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/testimonials_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setTestimonialsCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch active Diagnoses
-    fetch(`${API_BASE}/api/public/diagnoses`)
+    fetch(`${API_BASE_URL}/api/public/diagnoses`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setDiagnoses(d.diagnoses || []); })
       .catch(() => { });
 
     // Fetch CMS page for "diagnoses" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/diagnoses_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/diagnoses_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setDiagnosesCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch active Gallery items
-    fetch(`${API_BASE}/api/public/gallery`)
+    fetch(`${API_BASE_URL}/api/public/gallery`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setGallery(d.gallery || []); })
       .catch(() => { });
 
     // Fetch CMS page for "gallery" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/gallery_cms`)
+    fetch(`${API_BASE_URL}/api/public/cms/gallery_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setGalleryCmsHtml(d.page.content); })
       .catch(() => { });
 
     // Fetch CMS page for consultation hours
-    fetch(`${API_BASE}/api/public/cms/consultation_hours`)
+    fetch(`${API_BASE_URL}/api/public/cms/consultation_hours`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setConsultationHoursCmsHtml(d.page.content); })
       .catch(() => { });
