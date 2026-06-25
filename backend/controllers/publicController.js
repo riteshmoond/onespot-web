@@ -73,7 +73,7 @@ const getPublicGallery = async (_req, res) => {
 const getPublicCmsPage = async (req, res) => {
   try {
     const { slug } = req.params;
-    const page = await Cms.findOne({ name: slug, status: "active" });
+    const page = await Cms.findOne({ key: slug, status: "active" });
     if (!page) {
       return res.status(404).json({ success: false, message: "CMS page not found" });
     }

@@ -15,16 +15,11 @@ const pageTitles = {
   banners: "Banners",
   cms: "CMS",
   doctors: "Doctors",
-  messages: "Messages",
   gallery: "Gallery Control",
   services: "Services Control",
-  packages: "Packages Control",
-  team: "Team",
-  reviews: "Reviews",
   faqs: "FAQ Control",
   diagnoses: "Diagnosis Control",
   testimonials: "Testimonials Control",
-  settings: "Settings",
 };
 
 export default function AdminDashboard({ onLogout = () => {} }) {
@@ -69,7 +64,7 @@ export default function AdminDashboard({ onLogout = () => {} }) {
             <section className="admin-welcome-state">
               {/* <span>OS</span> */}
               <h2>Welcome to Onespot </h2>
-              <p>Manage your website content, bookings, gallery, packages, team and reviews from here.</p>
+              <p>Manage your website content, banners, gallery, FAQs, and testimonials from here.</p>
             </section>
           ) : activePage === "banners" ? (
             <BannerManager />

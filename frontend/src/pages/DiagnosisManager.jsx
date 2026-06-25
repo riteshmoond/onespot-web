@@ -22,6 +22,7 @@ export default function DiagnosisManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   const imagePreview = useMemo(() => {
     if (form.image) return URL.createObjectURL(form.image);
@@ -79,6 +80,7 @@ export default function DiagnosisManager() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingDiagnosis(null);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -163,6 +165,8 @@ export default function DiagnosisManager() {
     });
     setError("");
     setMessage("");
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (diagnosisId) => {
@@ -184,19 +188,30 @@ export default function DiagnosisManager() {
   return (
     <div className="doctor-module">
       <section className="doctor-editor">
-        <div className="banner-section-head">
+        <div
+          className="banner-section-head"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">Diagnosis Control</p>
             <h2>{editingDiagnosis ? "Edit Diagnosis" : "Add Diagnosis"}</h2>
           </div>
-          {editingDiagnosis && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingDiagnosis && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); resetForm(); }}
+              >
+                Cancel
+              </button>
+            )}
+            <span style={{ fontSize: "20px", transition: "transform 0.25s", transform: formOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "var(--primary, #6c63ff)" }}>▾</span>
+          </div>
         </div>
 
-        <form className="doctor-form" onSubmit={handleSubmit}>
+        {formOpen && <form className="doctor-form" onSubmit={handleSubmit}>
           <div className="doctor-form-grid">
             <label>
               Diagnosis Name
@@ -301,7 +316,7 @@ export default function DiagnosisManager() {
           <button className="btn-primary" type="submit" disabled={saving} style={{ width: "auto", minWidth: "170px" }}>
             {saving ? "Saving..." : editingDiagnosis ? "Update Diagnosis" : "Add Diagnosis"}
           </button>
-        </form>
+        </form>}
       </section>
 
       <section className="doctor-list-panel">

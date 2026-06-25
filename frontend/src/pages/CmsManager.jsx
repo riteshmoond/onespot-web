@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+import { useEffect, useRef, useState } from "react";
+import JoditEditor from "jodit-react";
 import { api } from "../lib/api";
 
 const emptyForm = {
   name: "",
+  key: "",
   status: "active",
   content: "",
 };
@@ -16,52 +16,62 @@ function stripHtml(html) {
 }
 
 export default function CmsManager() {
+  const editorRef = useRef(null);
   const [pages, setPages] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [editingPage, setEditingPage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [showSource, setShowSource] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const editorModules = useMemo(
-    () => ({
-      toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        ["bold", "italic", "underline", "strike"],
-        [{ color: [] }, { background: [] }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ align: [] }],
-        ["blockquote", "code-block"],
-        ["link", "image", "video"],
-        ["clean"],
-      ],
-    }),
-    []
-  );
+  // Form panel is collapsed by default; opens on Edit or manual toggle
+  const [formOpen, setFormOpen] = useState(false);
 
-  const editorFormats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "color",
-    "background",
-    "list",
-    "bullet",
-    "align",
-    "blockquote",
-    "code-block",
-    "link",
-    "image",
-    "video",
-  ];
+  // Jodit config — preserves all HTML including custom CSS classes & placeholders
+  const joditConfig = {
+    readonly: false,
+    height: 400,
+    toolbarButtonSize: "middle",
+    buttons: [
+      "source",
+      "|",
+      "bold", "italic", "underline", "strikethrough",
+      "|",
+      "ul", "ol",
+      "|",
+      "font", "fontsize", "paragraph",
+      "|",
+      "align",
+      "|",
+      "link", "image",
+      "|",
+      "hr", "table",
+      "|",
+      "undo", "redo",
+      "|",
+      "fullsize",
+    ],
+    allowResizeTags: true,
+    processPasteHTML: false,
+    cleanHTML: {
+      fillEmptyParagraph: false,
+      replaceNBSP: false,
+      allowTags: false,
+      denyTags: false,
+    },
+    sanitize: false,
+    enter: "P",
+    defaultMode: 1,
+    theme: "default",
+    showCharsCounter: false,
+    showWordsCounter: false,
+    showXPathInStatusbar: false,
+    placeholder: "Enter CMS content here. Use {{services}}, {{doctors}}, {{faqs}}, {{testimonials}}, {{gallery}} as placeholders.",
+  };
 
   const fetchPages = async () => {
     setLoading(true);
     setError("");
-
     try {
       const data = await api("/api/admin/cms");
       setPages(data.pages || []);
@@ -74,7 +84,6 @@ export default function CmsManager() {
 
   useEffect(() => {
     let isMounted = true;
-
     async function loadPages() {
       try {
         const data = await api("/api/admin/cms");
@@ -84,23 +93,17 @@ export default function CmsManager() {
         if (!isMounted) return;
         setError(err.message);
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        if (isMounted) setLoading(false);
       }
     }
-
     loadPages();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
   const resetForm = () => {
     setForm(emptyForm);
     setEditingPage(null);
-    setShowSource(false);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -111,8 +114,16 @@ export default function CmsManager() {
     setError("");
     setMessage("");
 
+    const plainText = stripHtml(form.content).trim();
+    if (!plainText) {
+      setError("Content cannot be empty.");
+      setSaving(false);
+      return;
+    }
+
     const payload = {
-      name: form.name,
+      name: form.name.trim(),
+      key: form.key.trim().toLowerCase().replace(/\s+/g, "_"),
       status: form.status,
       content: form.content,
     };
@@ -123,19 +134,23 @@ export default function CmsManager() {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        setMessage("CMS page updated successfully");
+        setMessage("CMS page updated successfully!");
       } else {
         await api("/api/admin/cms", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        setMessage("CMS page added successfully");
+        setMessage("CMS page added successfully!");
       }
-
       resetForm();
       await fetchPages();
     } catch (err) {
-      setError(err.message);
+      const msg = err.message || "Something went wrong";
+      if (msg.includes("duplicate") || msg.includes("E11000")) {
+        setError("A CMS entry with this key already exists. Use a different key.");
+      } else {
+        setError(msg);
+      }
     } finally {
       setSaving(false);
     }
@@ -145,21 +160,22 @@ export default function CmsManager() {
     setEditingPage(page);
     setForm({
       name: page.name || "",
+      key: page.key || "",
       status: page.status || "active",
       content: page.content || "",
     });
-    setShowSource(false);
     setError("");
     setMessage("");
+    // Auto-open form panel on edit
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (pageId) => {
     const confirmed = window.confirm("Delete this CMS page?");
     if (!confirmed) return;
-
     setError("");
     setMessage("");
-
     try {
       await api(`/api/admin/cms/${pageId}`, { method: "DELETE" });
       setMessage("CMS page deleted successfully");
@@ -171,86 +187,109 @@ export default function CmsManager() {
 
   return (
     <div className="cms-module">
+
+      {/* ── Collapsible Form Panel ── */}
       <section className="cms-editor">
-        <div className="banner-section-head">
+        {/* Collapse header — always visible, acts as toggle */}
+        <div
+          className="banner-section-head cms-collapse-header"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">CMS Control</p>
-            <h2>{editingPage ? "Edit CMS Page" : "Add CMS Page"}</h2>
+            <h2>{editingPage ? "Edit CMS Page" : "Add New CMS Page"}</h2>
           </div>
-          {editingPage && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingPage && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation(); // don't toggle collapse when clicking Cancel
+                  resetForm();
+                }}
+              >
+                Cancel
+              </button>
+            )}
+            <span
+              style={{
+                fontSize: "20px",
+                transition: "transform 0.25s",
+                transform: formOpen ? "rotate(180deg)" : "rotate(0deg)",
+                display: "inline-block",
+                color: "var(--primary, #6c63ff)",
+              }}
+            >
+              ▾
+            </span>
+          </div>
         </div>
 
-        <form className="cms-form" onSubmit={handleSubmit}>
-          <div className="cms-form-grid">
-            <label>
-              Name
-              <input
-                type="text"
-                required
-                value={form.name}
-                onChange={(event) => setForm({ ...form, name: event.target.value })}
-              />
-            </label>
+        {/* Collapsible body */}
+        {formOpen && (
+          <form className="cms-form" onSubmit={handleSubmit}>
+            <div className="cms-form-grid">
+              <label>
+                Name
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
+                />
+              </label>
 
-            <label>
-              Status
-              <select
-                value={form.status}
-                onChange={(event) => setForm({ ...form, status: event.target.value })}
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </label>
-          </div>
+              <label>
+                Key
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. services_cms"
+                  value={form.key}
+                  onChange={(e) => setForm((prev) => ({ ...prev, key: e.target.value }))}
+                />
+              </label>
 
-          <div className="cms-editor-shell">
-            <div className="cms-editor-modebar">
-              <button
-                type="button"
-                className={showSource ? "active" : ""}
-                onClick={() => setShowSource((current) => !current)}
-              >
-                HTML
-              </button>
+              <label>
+                Status
+                <select
+                  value={form.status}
+                  onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value }))}
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </label>
             </div>
 
-            {showSource ? (
-              <textarea
-                className="cms-source-editor"
-                required
+            <div className="cms-editor-shell" style={{ marginTop: "16px" }}>
+              <JoditEditor
+                ref={editorRef}
                 value={form.content}
-                onChange={(event) => setForm({ ...form, content: event.target.value })}
+                config={joditConfig}
+                onBlur={(newContent) => setForm((prev) => ({ ...prev, content: newContent }))}
               />
-            ) : (
-              <ReactQuill
-                className="cms-rich-editor"
-                theme="snow"
-                value={form.content}
-                modules={editorModules}
-                formats={editorFormats}
-                onChange={(content) => setForm({ ...form, content })}
-              />
+            </div>
+
+            {form.content && (
+              <div className="cms-preview">
+                <p className="admin-panel-label">Preview</p>
+                <div dangerouslySetInnerHTML={{ __html: form.content }} />
+              </div>
             )}
-          </div>
 
-          {form.content && (
-            <div className="cms-preview">
-              <p className="admin-panel-label">Preview</p>
-              <div dangerouslySetInnerHTML={{ __html: form.content }} />
-            </div>
-          )}
+            {error && <p className="admin-alert error" style={{ marginTop: "10px" }}>{error}</p>}
 
-          <button className="btn-primary" type="submit" disabled={saving}>
-            {saving ? "Saving..." : editingPage ? "Update CMS Page" : "Add CMS Page"}
-          </button>
-        </form>
+            <button className="btn-primary" type="submit" disabled={saving}>
+              {saving ? "Saving..." : editingPage ? "Update CMS Page" : "Add CMS Page"}
+            </button>
+          </form>
+        )}
       </section>
 
+      {/* ── CMS List Panel ── */}
       <section className="cms-list-panel">
         <div className="banner-section-head">
           <div>
@@ -262,16 +301,16 @@ export default function CmsManager() {
           </button>
         </div>
 
-        {error && <p className="admin-alert error">{error}</p>}
         {message && <p className="admin-alert success">{message}</p>}
+        {!formOpen && error && <p className="admin-alert error">{error}</p>}
 
         <div className="banner-table-wrap">
           <table className="banner-table cms-table">
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Key</th>
                 <th>Status</th>
-                <th>Content</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -288,13 +327,11 @@ export default function CmsManager() {
                 pages.map((page) => (
                   <tr key={page._id}>
                     <td data-label="Name">{page.name}</td>
+                    <td data-label="Key"><code>{page.key}</code></td>
                     <td data-label="Status">
                       <span className={`banner-status ${page.status}`}>
                         {page.status}
                       </span>
-                    </td>
-                    <td data-label="Content" className="cms-content-cell">
-                      {stripHtml(page.content).slice(0, 110) || "Empty content"}
                     </td>
                     <td data-label="Actions">
                       <div className="banner-row-actions">

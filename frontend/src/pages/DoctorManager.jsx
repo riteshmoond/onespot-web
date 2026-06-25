@@ -27,6 +27,7 @@ export default function DoctorManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   const imagePreview = useMemo(() => {
     if (form.image) return URL.createObjectURL(form.image);
@@ -84,6 +85,7 @@ export default function DoctorManager() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingDoctor(null);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -176,6 +178,8 @@ export default function DoctorManager() {
     });
     setError("");
     setMessage("");
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (doctorId) => {
@@ -197,19 +201,30 @@ export default function DoctorManager() {
   return (
     <div className="doctor-module">
       <section className="doctor-editor">
-        <div className="banner-section-head">
+        <div
+          className="banner-section-head"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">Doctor Control</p>
             <h2>{editingDoctor ? "Edit Doctor" : "Add Doctor"}</h2>
           </div>
-          {editingDoctor && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingDoctor && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); resetForm(); }}
+              >
+                Cancel
+              </button>
+            )}
+            <span style={{ fontSize: "20px", transition: "transform 0.25s", transform: formOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "var(--primary, #6c63ff)" }}>▾</span>
+          </div>
         </div>
 
-        <form className="doctor-form" onSubmit={handleSubmit}>
+        {formOpen && <form className="doctor-form" onSubmit={handleSubmit}>
           <div className="doctor-form-grid">
             <label>
               Name
@@ -360,7 +375,7 @@ export default function DoctorManager() {
           <button className="btn-primary" type="submit" disabled={saving}>
             {saving ? "Saving..." : editingDoctor ? "Update Doctor" : "Add Doctor"}
           </button>
-        </form>
+        </form>}
       </section>
 
       <section className="doctor-list-panel">
@@ -383,22 +398,17 @@ export default function DoctorManager() {
               <tr>
                 <th>Image</th>
                 <th>Name</th>
-                <th>Department</th>
-                <th>Gender</th>
-                <th>Position</th>
-                <th>Timing</th>
-                <th>Features</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="8">Loading doctors...</td>
+                  <td colSpan="3">Loading doctors...</td>
                 </tr>
               ) : doctors.length === 0 ? (
                 <tr>
-                  <td colSpan="8">No doctors added yet.</td>
+                  <td colSpan="3">No doctors added yet.</td>
                 </tr>
               ) : (
                 doctors.map((doctor) => (
@@ -411,15 +421,6 @@ export default function DoctorManager() {
                       />
                     </td>
                     <td data-label="Name">{doctor.name}</td>
-                    <td data-label="Department">{doctor.department}</td>
-                    <td data-label="Gender">
-                      <span className="doctor-gender">{doctor.gender}</span>
-                    </td>
-                    <td data-label="Position">{doctor.position}</td>
-                    <td data-label="Timing">
-                      <span className="doctor-time-text">{doctor.dailyTime}</span>
-                    </td>
-                    <td data-label="Features">{doctor.features?.length || 0}</td>
                     <td data-label="Actions">
                       <div className="banner-row-actions">
                         <button type="button" onClick={() => handleEdit(doctor)}>

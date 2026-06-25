@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "../site.css";
 import logoImg from "../assets/bbbbb.png";
 import whyImg from "../assets/why1.jpg";
@@ -7,7 +8,10 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function getImageUrl(img) {
   if (!img) return "";
-  return img.startsWith("http") ? img : `${API_BASE}${img}`;
+  if (img.startsWith("http") || img.startsWith("/img") || img.startsWith("/assets") || img.startsWith("data:")) {
+    return img;
+  }
+  return `${API_BASE}${img}`;
 }
 
 /* ─── Banner Slider ─────────────────────────────────────────── */
@@ -109,10 +113,100 @@ function ServiceCard({ service }) {
 /* ─── Services Section rendered from CMS + live service cards ── */
 function ServicesSection({ cmsHtml, services }) {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? services : services.slice(0, 4);
-  const hasMore = services.length > 4;
 
-  // Replace {{services}} placeholder in the CMS HTML with a marker
+  const staticServices = [
+    {
+      _id: "s1",
+      name: "Pre-Conception Counseling",
+      shortDescription: "Expert guidance before planning pregnancy.",
+      image: "/img/ser11.jpg"
+    },
+    {
+      _id: "s2",
+      name: "Antenatal Care",
+      shortDescription: "Complete care during pregnancy journey.",
+      image: "/img/ser14.jpg"
+    },
+    {
+      _id: "s3",
+      name: "High-Risk Pregnancy Management",
+      shortDescription: "Care for diabetes, hypertension, twins/triplets etc.",
+      image: "/img/ser15.webp"
+    },
+    {
+      _id: "s4",
+      name: "Painless Normal Deliveries",
+      shortDescription: "Safe and comfortable delivery support.",
+      image: "/img/ser16.jpg"
+    },
+    {
+      _id: "s5",
+      name: "Cesarean Sections",
+      shortDescription: "Advanced and safe C-section care.",
+      image: "/img/ser11.jpg"
+    },
+    {
+      _id: "s6",
+      name: "Menstrual Disorder Management",
+      shortDescription: "PCOS, heavy bleeding and irregular cycle care.",
+      image: "/img/ser14.jpg"
+    },
+    {
+      _id: "s7",
+      name: "Pelvic Pain & Infection Treatment",
+      shortDescription: "UTIs and pelvic inflammatory disease treatment.",
+      image: "/img/ser15.webp"
+    },
+    {
+      _id: "s8",
+      name: "Fibroid & Ovarian Cyst Management",
+      shortDescription: "Diagnosis and treatment for fibroids and cysts.",
+      image: "/img/ser16.jpg"
+    },
+    {
+      _id: "s9",
+      name: "Contraceptive Counseling",
+      shortDescription: "Personalized family planning guidance.",
+      image: "/img/ser11.jpg"
+    },
+    {
+      _id: "s10",
+      name: "IUD & Implant Services",
+      shortDescription: "Safe long-term birth control options.",
+      image: "/img/ser14.jpg"
+    },
+    {
+      _id: "s11",
+      name: "Infertility Treatments",
+      shortDescription: "Advanced fertility evaluation and care.",
+      image: "/img/ser15.webp"
+    },
+    {
+      _id: "s12",
+      name: "Advanced Surgical Procedures",
+      shortDescription: "Laparoscopy, hysteroscopy and hysterectomy.",
+      image: "/img/ser16.jpg"
+    },
+    {
+      _id: "s13",
+      name: "Menopause Management",
+      shortDescription: "Supportive care for healthy menopause.",
+      image: "/img/ser11.jpg"
+    },
+    {
+      _id: "s14",
+      name: "Breast & Cervical Cancer Screening",
+      shortDescription: "Screening and HPV vaccination support.",
+      image: "/img/ser14.jpg"
+    }
+  ];
+
+  const hasServices = services && services.length > 0;
+  const items = hasServices ? services : staticServices;
+
+  const visible = showAll ? items : items.slice(0, 4);
+  const hasMore = items.length > 4;
+
   const parts = cmsHtml.split("{{services}}");
 
   return (
@@ -153,8 +247,8 @@ const DEFAULT_SERVICES_CMS = `
 /* ─── Doctor Card ───────────────────────────────────────────── */
 function DoctorCard({ doctor, index }) {
   const isGynae = doctor.department.toLowerCase().includes("gyn") ||
-                  doctor.department.toLowerCase().includes("woman") ||
-                  doctor.department.toLowerCase().includes("obstetrics");
+    doctor.department.toLowerCase().includes("woman") ||
+    doctor.department.toLowerCase().includes("obstetrics");
 
   const docSlug = doctor.name
     .toLowerCase()
@@ -389,18 +483,18 @@ function TestimonialsSection({ cmsHtml, testimonials }) {
       )}
 
       <div className="testi-slider-outer">
-        <div 
-          className="testi-track" 
-          style={{ 
-            transform: `translateX(calc(-${activeIndex} * (100% + 24px) / ${cardsPerView}))` 
+        <div
+          className="testi-track"
+          style={{
+            transform: `translateX(calc(-${activeIndex} * (100% + 24px) / ${cardsPerView}))`
           }}
         >
           {itemsList.map((t, idx) => {
-            const isGynae = t.diagnose.toLowerCase().includes("gyn") || 
-                            t.diagnose.toLowerCase().includes("pregnancy") ||
-                            t.diagnose.toLowerCase().includes("baby") ||
-                            t.diagnose.toLowerCase().includes("pcos") ||
-                            t.diagnose.toLowerCase().includes("laparoscop");
+            const isGynae = t.diagnose.toLowerCase().includes("gyn") ||
+              t.diagnose.toLowerCase().includes("pregnancy") ||
+              t.diagnose.toLowerCase().includes("baby") ||
+              t.diagnose.toLowerCase().includes("pcos") ||
+              t.diagnose.toLowerCase().includes("laparoscop");
             return (
               <div key={t._id} className="testi-card">
                 <div className="testi-top">
@@ -544,7 +638,7 @@ function DiagnosisSection({ cmsHtml, diagnoses }) {
       <div className="spec-slider-wrapper" style={{ transform: `translateX(-${activeIndex * 100}%)` }}>
         {itemsList.map((item, idx) => {
           const isPink = idx % 2 === 1; // Alternate styles: Nephrologist style is blue (even), Gynecologist style is pink (odd)
-          
+
           // Split features in half
           const mid = Math.ceil(item.features.length / 2);
           const leftFeatures = item.features.slice(0, mid);
@@ -682,8 +776,8 @@ function GallerySection({ cmsHtml, gallery }) {
 
       {/* Lightbox Modal */}
       {selectedImage && (
-        <div 
-          onClick={() => setSelectedImage(null)} 
+        <div
+          onClick={() => setSelectedImage(null)}
           style={{
             position: 'fixed',
             top: 0,
@@ -700,7 +794,7 @@ function GallerySection({ cmsHtml, gallery }) {
             padding: '20px'
           }}
         >
-          <button 
+          <button
             onClick={() => setSelectedImage(null)}
             style={{
               position: 'absolute',
@@ -717,9 +811,9 @@ function GallerySection({ cmsHtml, gallery }) {
           >
             &times;
           </button>
-          <img 
-            src={getImageUrl(selectedImage)} 
-            alt="Enlarged gallery view" 
+          <img
+            src={getImageUrl(selectedImage)}
+            alt="Enlarged gallery view"
             style={{
               maxWidth: '90%',
               maxHeight: '90%',
@@ -727,7 +821,7 @@ function GallerySection({ cmsHtml, gallery }) {
               borderRadius: '8px',
               boxShadow: '0 10px 40px rgba(0,0,0,0.8)'
             }}
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}
@@ -735,8 +829,14 @@ function GallerySection({ cmsHtml, gallery }) {
   );
 }
 
-/* ─── OPD Section (static) ──────────────────────────────────── */
-function OpdSection() {
+/* ─── OPD / Consultation Hours Section (CMS-driven) ─────────── */
+function OpdSection({ cmsHtml }) {
+  // If CMS content is available, render it directly as HTML
+  if (cmsHtml) {
+    return <div dangerouslySetInnerHTML={{ __html: cmsHtml }} />;
+  }
+
+  // Static fallback if CMS not yet configured
   return (
     <section className="opd-section">
       <div className="opd-header">
@@ -901,6 +1001,7 @@ export default function HomePage() {
   const [diagnosesCmsHtml, setDiagnosesCmsHtml] = useState(DEFAULT_DIAGNOSIS_CMS);
   const [gallery, setGallery] = useState([]);
   const [galleryCmsHtml, setGalleryCmsHtml] = useState(DEFAULT_GALLERY_CMS);
+  const [consultationHoursCmsHtml, setConsultationHoursCmsHtml] = useState("");
   const [loadingBanners, setLoadingBanners] = useState(true);
 
   useEffect(() => {
@@ -908,80 +1009,87 @@ export default function HomePage() {
     fetch(`${API_BASE}/api/public/banners`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setBanners(d.banners || []); })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoadingBanners(false));
 
     // Fetch active services
     fetch(`${API_BASE}/api/public/services`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setServices(d.services || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "services" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/services`)
+    fetch(`${API_BASE}/api/public/cms/services_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setServicesCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch active doctors
     fetch(`${API_BASE}/api/public/doctors`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setDoctors(d.doctors || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "doctors" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/doctors`)
+    fetch(`${API_BASE}/api/public/cms/doctors_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setDoctorsCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch active FAQs
     fetch(`${API_BASE}/api/public/faqs`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setFaqs(d.faqs || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "why-choose-us" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/why-choose-us`)
+    fetch(`${API_BASE}/api/public/cms/why_choose_us_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setWhyCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch active Testimonials
     fetch(`${API_BASE}/api/public/testimonials`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setTestimonials(d.testimonials || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "testimonials" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/testimonials`)
+    fetch(`${API_BASE}/api/public/cms/testimonials_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setTestimonialsCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch active Diagnoses
     fetch(`${API_BASE}/api/public/diagnoses`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setDiagnoses(d.diagnoses || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "diagnoses" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/diagnoses`)
+    fetch(`${API_BASE}/api/public/cms/diagnoses_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setDiagnosesCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch active Gallery items
     fetch(`${API_BASE}/api/public/gallery`)
       .then((r) => r.json())
       .then((d) => { if (d.success) setGallery(d.gallery || []); })
-      .catch(() => {});
+      .catch(() => { });
 
     // Fetch CMS page for "gallery" — fallback to default if not found
-    fetch(`${API_BASE}/api/public/cms/gallery`)
+    fetch(`${API_BASE}/api/public/cms/gallery_cms`)
       .then((r) => r.json())
       .then((d) => { if (d.success && d.page?.content) setGalleryCmsHtml(d.page.content); })
-      .catch(() => {});
+      .catch(() => { });
+
+    // Fetch CMS page for consultation hours
+    fetch(`${API_BASE}/api/public/cms/consultation_hours`)
+      .then((r) => r.json())
+      .then((d) => { if (d.success && d.page?.content) setConsultationHoursCmsHtml(d.page.content); })
+      .catch(() => { });
+
   }, []);
 
   // Mobile dropdown toggle
@@ -1007,94 +1115,10 @@ export default function HomePage() {
       {!loadingBanners && <BannerSlider banners={banners} />}
 
       {/* Services Section — CMS content + dynamic service cards */}
-      {services.length > 0 ? (
-        <ServicesSection cmsHtml={servicesCmsHtml} services={services} />
-      ) : (
-        /* Fallback static section until services added in admin */
-        <section className="services-section">
-          <div className="section-title">
-            <span>OUR SERVICES</span>
-            <h2>Services We Offer</h2>
-            <p>Expert medical services with modern treatment and compassionate care.</p>
-          </div>
-          <div style={{ textAlign: "center", padding: "3rem", color: "#64748b" }}>
-            <p>Services will appear here once added from the admin panel.</p>
-          </div>
-        </section>
-      )}
+      <ServicesSection cmsHtml={servicesCmsHtml} services={services} />
 
       {/* Doctors Section — CMS content + dynamic doctor cards */}
-      {doctors.length > 0 ? (
-        <DoctorsSection cmsHtml={doctorsCmsHtml} doctors={doctors} />
-      ) : (
-        /* Fallback static section until doctors added in admin */
-        <section className="doctors-section">
-          <div className="section-title doctor-title">
-            <span>MEET OUR EXPERTS</span>
-            <h2>Our Doctors</h2>
-            <p>Qualified, experienced and dedicated specialists for your healthcare.</p>
-          </div>
-
-          <div className="doctor-card nephro-card">
-            <div className="doctor-photo">
-              <img src="/img/dd1.jpeg" alt="Dr. Priyash Tambi" />
-            </div>
-            <div className="doctor-info">
-              <span className="doctor-tag blue">NEPHROLOGIST</span>
-              <h3>Dr. Priyash Tambi</h3>
-              <p className="degree">Consultant Nephrologist &amp; Transplant Physician</p>
-              <p className="doctor-about">
-                Dr. Priyash Tambi is a highly qualified Nephrologist and Transplant Physician with advanced training from reputed medical institutions including AFMC Pune, KEM Hospital Mumbai and IKDRC-ITS Ahmedabad.
-              </p>
-              <ul>
-                <li>Acute &amp; Chronic Kidney Disease Management</li>
-                <li>Kidney Transplant Care &amp; Follow-up</li>
-                <li>Dialysis &amp; Critical Care Hemodialysis</li>
-                <li>Hypertension &amp; Diabetic Kidney Disease</li>
-                <li>Renal Stone &amp; Glomerular Disorders</li>
-                <li>Electrolyte Imbalance Management</li>
-              </ul>
-              <div className="doctor-meta blue-meta">
-                <span><strong>OPD:</strong> Monday - Saturday</span>
-                <span><strong>Sunday:</strong> Appointment Basis | 9:00 AM - 11:00 AM</span>
-                <span><strong>Timing:</strong> 8:00 AM - 9:00 AM &amp; 6:00 PM - 7:30 PM</span>
-              </div>
-              <a href="/appointment.html?doc=priyash" className="doctor-btn blue-btn">Book Appointment</a>
-            </div>
-          </div>
-
-          <div className="doctor-card gynae-card reverse">
-            <div className="doctor-info">
-              <span className="doctor-tag pink">GYNAECOLOGIST</span>
-              <h3>Dr. Priyanka Nasare Tambi</h3>
-              <p className="degree">Consultant Obstetrician &amp; Gynaecologist</p>
-              <p className="doctor-about">
-                Dr. Priyanka Nasare Tambi is a highly qualified Obstetrician and Gynaecologist with 10+ years of experience in women&apos;s healthcare.
-              </p>
-              <ul>
-                <li>MBBS — GMCH Nagpur</li>
-                <li>MS — KEM Hospital, Mumbai</li>
-                <li>DNB — NBEMS, New Delhi</li>
-                <li>Fellowship in Laparoscopy</li>
-                <li>High-Risk Pregnancy &amp; Antenatal Care</li>
-                <li>PCOS &amp; Hormonal Disorder Management</li>
-                <li>Infertility Evaluation &amp; Treatment</li>
-                <li>Normal &amp; Caesarean Deliveries</li>
-                <li>Laparoscopic &amp; Hysteroscopic Surgeries</li>
-              </ul>
-              <div className="doctor-meta pink-meta">
-                <span><strong>Experience:</strong> 10+ Years</span>
-                <span><strong>Timing:</strong> Mon - Sat | 9:00 AM - 1:00 PM &nbsp;&amp;&nbsp; 6:00 PM - 8:00 PM</span>
-                <span><strong>Sunday:</strong> Appointment Basis | 9:00 AM - 11:00 AM</span>
-              </div>
-              <a href="/appointment.html?doc=priyanka" className="doctor-btn pink-btn">Book Appointment</a>
-            </div>
-            <div className="doctor-photo">
-              <img src="/img/dd2.jpg" alt="Dr. Priyanka Nasare Tambi" />
-            </div>
-          </div>
-        </section>
-      )}
+      <DoctorsSection cmsHtml={doctorsCmsHtml} doctors={doctors} />
 
       {/* Why Choose Us */}
       <WhySection cmsHtml={whyCmsHtml} faqs={faqs} />
@@ -1111,8 +1135,8 @@ export default function HomePage() {
       {/* Gallery */}
       <GallerySection cmsHtml={galleryCmsHtml} gallery={gallery} />
 
-      {/* Clinic Timings (OPD Hours) */}
-      <OpdSection />
+      {/* Clinic Timings (OPD Hours) — CMS-driven */}
+      <OpdSection cmsHtml={consultationHoursCmsHtml} />
 
       {/* Footer */}
       <footer className="footer">
@@ -1189,71 +1213,73 @@ export default function HomePage() {
 
 /* ─── Why Choose Us ─────────────────────────────────────────── */
 function WhySection({ cmsHtml, faqs }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const staticItems = [
-    { q: "Experienced Doctors", a: "Our specialists provide accurate diagnosis and personalized treatment with a patient-first approach." },
-    { q: "Kidney & Transplant Care", a: "Advanced care for kidney disease, dialysis, hypertension-related kidney problems and renal transplant follow-up." },
-    { q: "Women's Health Expertise", a: "Complete care for pregnancy, PCOS, infertility, menstrual problems, laparoscopic procedures and women's wellness." },
-    { q: "Modern Treatment Approach", a: "We follow updated medical practices and provide safe, ethical and result-oriented treatment for every patient." },
-    { q: "Compassionate Care", a: "We believe in listening to patients, explaining treatment clearly and making healthcare comfortable for families." },
-  ];
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  const hasFaqs = faqs && faqs.length > 0;
-  const items = hasFaqs ? faqs.map(f => ({ q: f.question, a: f.answer, id: f._id })) : staticItems.map((s, i) => ({ q: s.q, a: s.a, id: i }));
+  const items =
+    faqs && faqs.length > 0
+      ? faqs.map((f) => ({ id: f._id, q: f.question, a: f.answer }))
+      : [];
 
-  // Split CMS content
-  let parts = [];
-  if (cmsHtml) {
-    if (cmsHtml.includes("{{faqs}}")) {
-      parts = cmsHtml.split("{{faqs}}");
-    } else if (cmsHtml.includes("{{why}}")) {
-      parts = cmsHtml.split("{{why}}");
-    } else if (cmsHtml.includes("{{why-choose-us}}")) {
-      parts = cmsHtml.split("{{why-choose-us}}");
-    } else {
-      parts = [cmsHtml];
-    }
-  }
+  if (!cmsHtml) return null;
 
-  const headerHtml = parts[0] || (cmsHtml && parts.length === 1 ? cmsHtml : null);
+  const PLACEHOLDER = "{{faqs}}";
+  const hasPlaceholder = cmsHtml.includes(PLACEHOLDER);
+  const parts = hasPlaceholder ? cmsHtml.split(PLACEHOLDER) : [cmsHtml];
+
+  const titleHtml = (parts[0] || "")
+    .replace(/<div class="why-wrapper">[\s\S]*/i, "")
+    .trim();
+
+  const tailHtml = (parts[1] || "")
+    .replace(/^[\s]*<\/div>[\s]*/i, "")
+    .trim();
+
+  const accordionJSX =
+    items.length > 0 ? (
+      <div className="why-accordion">
+        {items.map((item, i) => (
+          <div
+            key={item.id}
+            className={`why-item${activeIndex === i ? " active" : ""}`}
+          >
+            <button
+              className="why-question"
+              type="button"
+              onClick={() => setActiveIndex(activeIndex === i ? null : i)}
+            >
+              <span className="icon">{activeIndex === i ? "−" : "+"}</span>
+              {item.q}
+            </button>
+            <div className="why-answer">
+              <p>{item.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : null;
 
   return (
     <section className="why-section">
-      {headerHtml ? (
-        <div dangerouslySetInnerHTML={{ __html: headerHtml }} />
-      ) : (
-        <div className="section-title">
-          <span>WHY CHOOSE US</span>
-          <h2>Why Choose Our Care?</h2>
-          <p>Expert kidney care and women's healthcare with trust, compassion and modern treatment approach.</p>
+      {titleHtml && (
+        <div dangerouslySetInnerHTML={{ __html: titleHtml }} />
+      )}
+
+      {(hasPlaceholder || accordionJSX) && (
+        <div className="why-wrapper">
+          <div className="why-image">
+            <img src={whyImg} alt="Why Choose Us" />
+          </div>
+          {accordionJSX}
         </div>
       )}
 
-      <div className="why-wrapper">
-        <div className="why-image">
-          <img src={whyImg} alt="Why Choose Us" />
-        </div>
-        <div className="why-accordion">
-          {items.map((item, i) => (
-            <div key={item.id} className={`why-item${activeIndex === i ? " active" : ""}`}>
-              <button className="why-question" type="button" onClick={() => setActiveIndex(activeIndex === i ? -1 : i)}>
-                <span className="icon">{activeIndex === i ? "−" : "+"}</span>
-                {item.q}
-              </button>
-              <div className="why-answer">
-                <p>{item.a}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {parts[1] && (
-        <div dangerouslySetInnerHTML={{ __html: parts[1] }} />
+      {tailHtml && (
+        <div dangerouslySetInnerHTML={{ __html: tailHtml }} />
       )}
     </section>
   );
 }
+
 
 /* ─── Stats Section ─────────────────────────────────────────── */
 function StatSection() {

@@ -298,12 +298,12 @@ const listCmsPages = async (_req, res) => {
 
 const addCmsPage = async (req, res) => {
   try {
-    const { name, status = "active", content } = req.body;
+    const { name, key, status = "active", content } = req.body;
 
-    if (!name || !content) {
+    if (!name || !key || !content) {
       return res.status(400).json({
         success: false,
-        message: "Name and content are required",
+        message: "Name, key and content are required",
       });
     }
 
@@ -316,6 +316,7 @@ const addCmsPage = async (req, res) => {
 
     const page = await Cms.create({
       name: name.trim(),
+      key: key.trim(),
       status,
       content,
     });
@@ -345,7 +346,7 @@ const editCmsPage = async (req, res) => {
       });
     }
 
-    const { name, status, content } = req.body;
+    const { name, key, status, content } = req.body;
 
     if (status !== undefined && !isValidStatus(status)) {
       return res.status(400).json({
@@ -355,6 +356,7 @@ const editCmsPage = async (req, res) => {
     }
 
     if (name !== undefined) page.name = name.trim();
+    if (key !== undefined) page.key = key.trim();
     if (status !== undefined) page.status = status;
     if (content !== undefined) page.content = content;
 
@@ -372,6 +374,7 @@ const editCmsPage = async (req, res) => {
     });
   }
 };
+
 
 const deleteCmsPage = async (req, res) => {
   try {

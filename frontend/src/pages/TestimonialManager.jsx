@@ -23,6 +23,7 @@ export default function TestimonialManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   const imagePreview = useMemo(() => {
     if (form.image) return URL.createObjectURL(form.image);
@@ -80,6 +81,7 @@ export default function TestimonialManager() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingTestimonial(null);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -136,6 +138,8 @@ export default function TestimonialManager() {
     });
     setError("");
     setMessage("");
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (testimonialId) => {
@@ -157,19 +161,30 @@ export default function TestimonialManager() {
   return (
     <div className="doctor-module">
       <section className="doctor-editor">
-        <div className="banner-section-head">
+        <div
+          className="banner-section-head"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">Testimonials Control</p>
             <h2>{editingTestimonial ? "Edit Testimonial" : "Add Testimonial"}</h2>
           </div>
-          {editingTestimonial && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingTestimonial && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); resetForm(); }}
+              >
+                Cancel
+              </button>
+            )}
+            <span style={{ fontSize: "20px", transition: "transform 0.25s", transform: formOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "var(--primary, #6c63ff)" }}>▾</span>
+          </div>
         </div>
 
-        <form className="doctor-form" onSubmit={handleSubmit}>
+        {formOpen && <form className="doctor-form" onSubmit={handleSubmit}>
           <div className="doctor-form-grid">
             <label>
               Customer Name
@@ -250,7 +265,7 @@ export default function TestimonialManager() {
           <button className="btn-primary" type="submit" disabled={saving} style={{ width: "auto", minWidth: "170px" }}>
             {saving ? "Saving..." : editingTestimonial ? "Update Testimonial" : "Add Testimonial"}
           </button>
-        </form>
+        </form>}
       </section>
 
       <section className="doctor-list-panel">

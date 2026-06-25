@@ -23,6 +23,7 @@ export default function ServiceManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   const selectedCount = selectedIds.length;
   const allSelected = services.length > 0 && selectedCount === services.length;
@@ -84,6 +85,7 @@ export default function ServiceManager() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingService(null);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -118,6 +120,7 @@ export default function ServiceManager() {
 
       setForm(emptyForm);
       setEditingService(null);
+      setFormOpen(false);
       await fetchServices();
     } catch (err) {
       setError(err.message);
@@ -137,6 +140,8 @@ export default function ServiceManager() {
     });
     setError("");
     setMessage("");
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (serviceId) => {
@@ -191,19 +196,30 @@ export default function ServiceManager() {
   return (
     <div className="banner-module">
       <section className="banner-editor">
-        <div className="banner-section-head">
+        <div
+          className="banner-section-head"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">Service Control</p>
             <h2>{editingService ? "Edit Service" : "Add Service"}</h2>
           </div>
-          {editingService && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingService && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); resetForm(); }}
+              >
+                Cancel
+              </button>
+            )}
+            <span style={{ fontSize: "20px", transition: "transform 0.25s", transform: formOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "var(--primary, #6c63ff)" }}>▾</span>
+          </div>
         </div>
 
-        <form className="banner-form" onSubmit={handleSubmit}>
+        {formOpen && <form className="banner-form" onSubmit={handleSubmit}>
           <label>
             Name
             <input
@@ -277,7 +293,7 @@ export default function ServiceManager() {
           <button className="btn-primary" type="submit" disabled={saving}>
             {saving ? "Saving..." : editingService ? "Update Service" : "Add Service"}
           </button>
-        </form>
+        </form>}
       </section>
 
       <section className="banner-list-panel">

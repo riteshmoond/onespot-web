@@ -7,6 +7,12 @@ const cmsSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    key: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
     status: {
       type: String,
       enum: ["active", "inactive"],

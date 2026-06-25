@@ -3,16 +3,11 @@ const navItems = [
   ["banners", "Banners", "BN"],
   ["cms", "CMS", "CM"],
   ["doctors", "Doctors", "DR"],
-  ["messages", "Messages", "MS"],
   ["gallery", "Gallery Control", "GL"],
-  ["packages", "Packages Control", "PK"],
-  ["team", "Team", "TM"],
-  ["reviews", "Reviews", "RV"],
   ["faqs", "FAQs", "FQ"],
   ["diagnoses", "Diagnosis Control", "DI"],
   ["testimonials", "Testimonials", "TS"],
   ["services", "Services", "SV"],
-  ["settings", "Settings", "ST"],
 ];
 
 export default function AdminSidebar({

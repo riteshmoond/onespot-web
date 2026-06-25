@@ -22,6 +22,7 @@ export default function BannerManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   const selectedCount = selectedIds.length;
   const allSelected = banners.length > 0 && selectedCount === banners.length;
@@ -83,6 +84,7 @@ export default function BannerManager() {
   const resetForm = () => {
     setForm(emptyForm);
     setEditingBanner(null);
+    setFormOpen(false);
     setError("");
     setMessage("");
   };
@@ -116,6 +118,7 @@ export default function BannerManager() {
 
       setForm(emptyForm);
       setEditingBanner(null);
+      setFormOpen(false);
       await fetchBanners();
     } catch (err) {
       setError(err.message);
@@ -134,6 +137,8 @@ export default function BannerManager() {
     });
     setError("");
     setMessage("");
+    setFormOpen(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (bannerId) => {
@@ -188,19 +193,30 @@ export default function BannerManager() {
   return (
     <div className="banner-module">
       <section className="banner-editor">
-        <div className="banner-section-head">
+        <div
+          className="banner-section-head"
+          onClick={() => setFormOpen((o) => !o)}
+          style={{ cursor: "pointer", userSelect: "none" }}
+        >
           <div>
             <p className="admin-panel-label">Banner Control</p>
             <h2>{editingBanner ? "Edit Banner" : "Add Banner"}</h2>
           </div>
-          {editingBanner && (
-            <button className="admin-secondary-button" type="button" onClick={resetForm}>
-              Cancel
-            </button>
-          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {editingBanner && (
+              <button
+                className="admin-secondary-button"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); resetForm(); }}
+              >
+                Cancel
+              </button>
+            )}
+            <span style={{ fontSize: "20px", transition: "transform 0.25s", transform: formOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "var(--primary, #6c63ff)" }}>▾</span>
+          </div>
         </div>
 
-        <form className="banner-form" onSubmit={handleSubmit}>
+        {formOpen && <form className="banner-form" onSubmit={handleSubmit}>
           <label>
             Name
             <input
@@ -253,7 +269,7 @@ export default function BannerManager() {
           <button className="btn-primary" type="submit" disabled={saving}>
             {saving ? "Saving..." : editingBanner ? "Update Banner" : "Add Banner"}
           </button>
-        </form>
+        </form>}
       </section>
 
       <section className="banner-list-panel">
