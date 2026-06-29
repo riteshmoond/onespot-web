@@ -121,7 +121,7 @@ const addBanner = async (req, res) => {
     }
 
     if (!isValidBannerStatus(status)) {
-      removeBannerImage(`/uploads/banners/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
 
       return res.status(400).json({
         success: false,
@@ -131,7 +131,7 @@ const addBanner = async (req, res) => {
 
     const banner = await Banner.create({
       name: name.trim(),
-      image: `/uploads/banners/${req.file.filename}`,
+      image: getStoredImagePath(req),
       status,
       order: Number(order) || 0,
     });
@@ -143,7 +143,7 @@ const addBanner = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/banners/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -160,7 +160,7 @@ const editBanner = async (req, res) => {
 
     if (!banner) {
       if (req.file) {
-        removeBannerImage(`/uploads/banners/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(404).json({
@@ -174,7 +174,7 @@ const editBanner = async (req, res) => {
 
     if (status !== undefined && !isValidBannerStatus(status)) {
       if (req.file) {
-        removeBannerImage(`/uploads/banners/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -186,12 +186,12 @@ const editBanner = async (req, res) => {
     if (name !== undefined) banner.name = name.trim();
     if (status !== undefined) banner.status = status;
     if (order !== undefined) banner.order = Number(order) || 0;
-    if (req.file) banner.image = `/uploads/banners/${req.file.filename}`;
+    if (req.file) banner.image = getStoredImagePath(req);
 
     await banner.save();
 
     if (req.file) {
-      removeBannerImage(previousImage);
+      removeStoredImage(previousImage);
     }
 
     res.status(200).json({
@@ -201,7 +201,7 @@ const editBanner = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/banners/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -223,7 +223,7 @@ const deleteBanner = async (req, res) => {
       });
     }
 
-    removeBannerImage(banner.image);
+    removeStoredImage(banner.image);
 
     res.status(200).json({
       success: true,
@@ -258,7 +258,7 @@ const deleteBanners = async (req, res) => {
     }
 
     await Banner.deleteMany({ _id: { $in: ids } });
-    banners.forEach((banner) => removeBannerImage(banner.image));
+    banners.forEach((banner) => removeStoredImage(banner.image));
 
     res.status(200).json({
       success: true,
@@ -435,7 +435,7 @@ const addDoctor = async (req, res) => {
       !req.file
     ) {
       if (req.file) {
-        removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -445,7 +445,7 @@ const addDoctor = async (req, res) => {
     }
 
     if (!isValidGender(gender)) {
-      removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
 
       return res.status(400).json({
         success: false,
@@ -455,7 +455,7 @@ const addDoctor = async (req, res) => {
 
     const doctor = await Doctor.create({
       name: name.trim(),
-      image: `/uploads/doctors/${req.file.filename}`,
+      image: getStoredImagePath(req),
       department: department.trim(),
       gender,
       position: position.trim(),
@@ -473,7 +473,7 @@ const addDoctor = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -490,7 +490,7 @@ const editDoctor = async (req, res) => {
 
     if (!doctor) {
       if (req.file) {
-        removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(404).json({
@@ -514,7 +514,7 @@ const editDoctor = async (req, res) => {
 
     if (gender !== undefined && !isValidGender(gender)) {
       if (req.file) {
-        removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -532,12 +532,12 @@ const editDoctor = async (req, res) => {
     if (sundayTiming !== undefined) doctor.sundayTiming = sundayTiming.trim();
     if (dailyTime !== undefined) doctor.dailyTime = dailyTime.trim();
     if (features !== undefined) doctor.features = parseFeatures(features);
-    if (req.file) doctor.image = `/uploads/doctors/${req.file.filename}`;
+    if (req.file) doctor.image = getStoredImagePath(req);
 
     await doctor.save();
 
     if (req.file) {
-      removeBannerImage(previousImage);
+      removeStoredImage(previousImage);
     }
 
     res.status(200).json({
@@ -547,7 +547,7 @@ const editDoctor = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/doctors/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -569,7 +569,7 @@ const deleteDoctor = async (req, res) => {
       });
     }
 
-    removeBannerImage(doctor.image);
+    removeStoredImage(doctor.image);
 
     res.status(200).json({
       success: true,
@@ -706,7 +706,7 @@ const addDiagnosis = async (req, res) => {
 
     if (!name || !req.file) {
       if (req.file) {
-        removeBannerImage(`/uploads/diagnosis/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -717,7 +717,7 @@ const addDiagnosis = async (req, res) => {
 
     const diagnosis = await Diagnosis.create({
       name: name.trim(),
-      image: `/uploads/diagnosis/${req.file.filename}`,
+      image: getStoredImagePath(req),
       doctorName: (doctorName || "").trim(),
       doctorPosition: (doctorPosition || "").trim(),
       features: parseFeatures(features),
@@ -730,7 +730,7 @@ const addDiagnosis = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/diagnosis/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -747,7 +747,7 @@ const editDiagnosis = async (req, res) => {
 
     if (!diagnosis) {
       if (req.file) {
-        removeBannerImage(`/uploads/diagnosis/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(404).json({
@@ -763,12 +763,12 @@ const editDiagnosis = async (req, res) => {
     if (doctorName !== undefined) diagnosis.doctorName = doctorName.trim();
     if (doctorPosition !== undefined) diagnosis.doctorPosition = doctorPosition.trim();
     if (features !== undefined) diagnosis.features = parseFeatures(features);
-    if (req.file) diagnosis.image = `/uploads/diagnosis/${req.file.filename}`;
+    if (req.file) diagnosis.image = getStoredImagePath(req);
 
     await diagnosis.save();
 
     if (req.file) {
-      removeBannerImage(previousImage);
+      removeStoredImage(previousImage);
     }
 
     res.status(200).json({
@@ -778,7 +778,7 @@ const editDiagnosis = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/diagnosis/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -800,7 +800,7 @@ const deleteDiagnosis = async (req, res) => {
       });
     }
 
-    removeBannerImage(diagnosis.image);
+    removeStoredImage(diagnosis.image);
 
     res.status(200).json({
       success: true,
@@ -836,7 +836,7 @@ const addTestimonial = async (req, res) => {
 
     if (!customerName || !message || !req.file) {
       if (req.file) {
-        removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -846,7 +846,7 @@ const addTestimonial = async (req, res) => {
     }
 
     if (status && !["active", "inactive"].includes(status)) {
-      removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
 
       return res.status(400).json({
         success: false,
@@ -856,7 +856,7 @@ const addTestimonial = async (req, res) => {
 
     const testimonial = await Testimonial.create({
       customerName: customerName.trim(),
-      image: `/uploads/testimonials/${req.file.filename}`,
+      image: getStoredImagePath(req),
       location: (location || "").trim(),
       diagnose: (diagnose || "").trim(),
       status: status || "active",
@@ -870,7 +870,7 @@ const addTestimonial = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -887,7 +887,7 @@ const editTestimonial = async (req, res) => {
 
     if (!testimonial) {
       if (req.file) {
-        removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(404).json({
@@ -901,7 +901,7 @@ const editTestimonial = async (req, res) => {
 
     if (status !== undefined && !["active", "inactive"].includes(status)) {
       if (req.file) {
-        removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -915,12 +915,12 @@ const editTestimonial = async (req, res) => {
     if (diagnose !== undefined) testimonial.diagnose = diagnose.trim();
     if (status !== undefined) testimonial.status = status;
     if (message !== undefined) testimonial.message = message.trim();
-    if (req.file) testimonial.image = `/uploads/testimonials/${req.file.filename}`;
+    if (req.file) testimonial.image = getStoredImagePath(req);
 
     await testimonial.save();
 
     if (req.file) {
-      removeBannerImage(previousImage);
+      removeStoredImage(previousImage);
     }
 
     res.status(200).json({
@@ -930,7 +930,7 @@ const editTestimonial = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/testimonials/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -952,7 +952,7 @@ const deleteTestimonial = async (req, res) => {
       });
     }
 
-    removeBannerImage(testimonial.image);
+    removeStoredImage(testimonial.image);
 
     res.status(200).json({
       success: true,
@@ -992,7 +992,7 @@ const addGallery = async (req, res) => {
     }
 
     const gallery = await Gallery.create({
-      image: `/uploads/gallery/${req.file.filename}`,
+      image: getStoredImagePath(req),
     });
 
     res.status(201).json({
@@ -1002,7 +1002,7 @@ const addGallery = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/gallery/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -1024,7 +1024,7 @@ const deleteGallery = async (req, res) => {
       });
     }
 
-    removeBannerImage(gallery.image);
+    removeStoredImage(gallery.image);
 
     res.status(200).json({
       success: true,
@@ -1060,7 +1060,7 @@ const addService = async (req, res) => {
 
     if (!name || !shortDescription || !req.file) {
       if (req.file) {
-        removeBannerImage(`/uploads/services/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -1070,7 +1070,7 @@ const addService = async (req, res) => {
     }
 
     if (status && !["active", "inactive"].includes(status)) {
-      removeBannerImage(`/uploads/services/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
 
       return res.status(400).json({
         success: false,
@@ -1080,7 +1080,7 @@ const addService = async (req, res) => {
 
     const service = await Service.create({
       name: name.trim(),
-      image: `/uploads/services/${req.file.filename}`,
+      image: getStoredImagePath(req),
       status: status || "active",
       order: Number(order) || 0,
       shortDescription: shortDescription.trim(),
@@ -1093,7 +1093,7 @@ const addService = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/services/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -1110,7 +1110,7 @@ const editService = async (req, res) => {
 
     if (!service) {
       if (req.file) {
-        removeBannerImage(`/uploads/services/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(404).json({
@@ -1124,7 +1124,7 @@ const editService = async (req, res) => {
 
     if (status !== undefined && !["active", "inactive"].includes(status)) {
       if (req.file) {
-        removeBannerImage(`/uploads/services/${req.file.filename}`);
+        removeStoredImage(getStoredImagePath(req));
       }
 
       return res.status(400).json({
@@ -1137,12 +1137,12 @@ const editService = async (req, res) => {
     if (status !== undefined) service.status = status;
     if (order !== undefined) service.order = Number(order) || 0;
     if (shortDescription !== undefined) service.shortDescription = shortDescription.trim();
-    if (req.file) service.image = `/uploads/services/${req.file.filename}`;
+    if (req.file) service.image = getStoredImagePath(req);
 
     await service.save();
 
     if (req.file) {
-      removeBannerImage(previousImage);
+      removeStoredImage(previousImage);
     }
 
     res.status(200).json({
@@ -1152,7 +1152,7 @@ const editService = async (req, res) => {
     });
   } catch (error) {
     if (req.file) {
-      removeBannerImage(`/uploads/services/${req.file.filename}`);
+      removeStoredImage(getStoredImagePath(req));
     }
 
     res.status(500).json({
@@ -1174,7 +1174,7 @@ const deleteService = async (req, res) => {
       });
     }
 
-    removeBannerImage(service.image);
+    removeStoredImage(service.image);
 
     res.status(200).json({
       success: true,
@@ -1202,7 +1202,7 @@ const deleteServices = async (req, res) => {
     const services = await Service.find({ _id: { $in: ids } });
 
     for (const service of services) {
-      removeBannerImage(service.image);
+      removeStoredImage(service.image);
     }
 
     await Service.deleteMany({ _id: { $in: ids } });
