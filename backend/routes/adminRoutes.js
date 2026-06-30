@@ -38,90 +38,14 @@ const {
   deleteServices,
 } = require("../controllers/adminController");
 const adminAuth = require("../middleware/adminAuth");
-const uploadBanner = require("../middleware/uploadBanner");
-const uploadDoctor = require("../middleware/uploadDoctor");
-const uploadDiagnosis = require("../middleware/uploadDiagnosis");
-const uploadTestimonial = require("../middleware/uploadTestimonial");
-const uploadGallery = require("../middleware/uploadGallery");
-const uploadService = require("../middleware/uploadService");
+const { createUploadHandler } = require("../utils/imageStorage");
 
-const handleBannerUpload = (req, res, next) => {
-  uploadBanner.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
-
-const handleDoctorUpload = (req, res, next) => {
-  uploadDoctor.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
-
-const handleDiagnosisUpload = (req, res, next) => {
-  uploadDiagnosis.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
-
-const handleTestimonialUpload = (req, res, next) => {
-  uploadTestimonial.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
-
-const handleGalleryUpload = (req, res, next) => {
-  uploadGallery.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
-
-const handleServiceUpload = (req, res, next) => {
-  uploadService.single("image")(req, res, (error) => {
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-
-    next();
-  });
-};
+const handleBannerUpload = createUploadHandler("banners");
+const handleDoctorUpload = createUploadHandler("doctors");
+const handleDiagnosisUpload = createUploadHandler("diagnoses");
+const handleTestimonialUpload = createUploadHandler("testimonials");
+const handleGalleryUpload = createUploadHandler("gallery");
+const handleServiceUpload = createUploadHandler("services");
 
 router.post("/login", loginAdmin);
 router.get("/banners", adminAuth, listBanners);
